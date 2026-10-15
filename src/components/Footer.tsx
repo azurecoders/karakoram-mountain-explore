@@ -1,7 +1,10 @@
+"use client";
+
 import Link from "next/link";
 import { Mail, MapPin, Phone, ArrowUpRight } from "lucide-react";
 import { BsInstagram, BsTwitter, BsYoutube } from "react-icons/bs";
 import { FaFacebook } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
 const exploreLinks = [
   { label: "Expeditions", href: "/expeditions" },
@@ -35,6 +38,12 @@ const socials = [
 ];
 
 const Footer = () => {
+  const [year, setYear] = useState<number | null>(null);
+
+  useEffect(() => {
+    setYear(new Date().getFullYear());
+  }, []);
+
   return (
     <footer className="bg-[#0d1f3a] relative overflow-hidden">
       {/* Top accent line */}
@@ -166,7 +175,7 @@ const Footer = () => {
         {/* Bottom bar */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-5 py-6 border-t border-white/10">
           <p className="text-gray-500 text-xs sm:text-sm text-center sm:text-left">
-            © {new Date().getFullYear()} Karakoram Tours. All rights reserved.
+            © {year ?? "2026"} Karakoram Tours. All rights reserved.
           </p>
 
           <div className="flex items-center gap-3">
