@@ -7,13 +7,13 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X, Phone, Mail, ArrowRight } from "lucide-react";
 
 const leftLinks = [
-  { label: "Expeditions", href: "/expeditions" },
-  { label: "Tours", href: "/tours" },
+  { label: "Expeditions", href: "/experiences" },
+  { label: "Tours", href: "/experiences" },
 ];
 
 const rightLinks = [
-  { label: "Trekking", href: "/trekking" },
-  { label: "Rock Climbing", href: "/rock-climbing" },
+  { label: "Trekking", href: "/experiences" },
+  { label: "Rock Climbing", href: "/experiences" },
 ];
 
 const NavLink = ({ label, href }: { label: string; href: string }) => (
@@ -105,10 +105,10 @@ const Header = () => {
                 ))}
               </ul>
               <Link
-                href="/book"
+                href="/contact"
                 className="group ml-8 flex items-center gap-2 bg-[#014090] hover:bg-[#F56907] text-white font-semibold text-sm px-6 py-2.5 rounded-full transition-all duration-300 shadow-sm hover:shadow-md hover:shadow-orange-500/20 whitespace-nowrap"
               >
-                Book Now
+                Contact Now
                 <ArrowRight
                   size={15}
                   className="group-hover:translate-x-0.5 transition-transform"
@@ -116,12 +116,12 @@ const Header = () => {
               </Link>
             </div>
 
-            {/* Mobile: Book Now shortcut */}
+            {/* Mobile: Contact Now shortcut */}
             <Link
-              href="/book"
+              href="/contact"
               className="lg:hidden justify-self-end bg-[#014090] text-white font-semibold text-xs px-4 py-2 rounded-full whitespace-nowrap"
             >
-              Book Now
+              Contact Now
             </Link>
           </div>
         </nav>
@@ -194,11 +194,11 @@ const Header = () => {
               {/* Drawer footer */}
               <div className="px-5 py-5 border-t border-gray-100 space-y-3">
                 <Link
-                  href="/book"
+                  href="/contact"
                   onClick={() => setMobileOpen(false)}
                   className="flex items-center justify-center gap-2 bg-[#014090] text-white font-semibold text-sm py-3.5 rounded-full w-full"
                 >
-                  Book Now
+                  Contact Now
                   <ArrowRight size={15} />
                 </Link>
                 <a

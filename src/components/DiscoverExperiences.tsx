@@ -233,7 +233,7 @@ const DiscoverExperiences = () => {
                   <div>
                     <span className="text-xs text-gray-400">Starting from</span>
                     <p className="text-xl font-bold text-[#17345B]">
-                      ${exp.price}
+                      Rs. {exp.price}
                       <span className="text-xs font-normal text-gray-400">
                         {" "}
                         /person
