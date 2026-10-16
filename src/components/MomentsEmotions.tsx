@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Heart, MapPin, ArrowUpRight } from "lucide-react";
+import { MapPin, ArrowRight } from "lucide-react";
 
 type Moment = {
   id: number;
@@ -9,14 +9,11 @@ type Moment = {
   title: string;
   location: string;
   emotion: string;
-  /** Tailwind grid placement classes (mobile = 2 cols, desktop = 4 cols) */
   layout: string;
-  /** `sizes` hint so next/image loads the right file per breakpoint */
   sizes: string;
-  /** "feature" gets larger type + accent badge */
-  variant: "feature" | "default";
 };
 
+// Layout maps perfectly to a 3-column desktop grid
 const moments: Moment[] = [
   {
     id: 1,
@@ -25,9 +22,8 @@ const moments: Moment[] = [
     title: "Summit Sunrise",
     location: "K2 Base Camp",
     emotion: "Triumph",
-    layout: "col-span-2 row-span-2",
-    sizes: "(min-width: 1024px) 50vw, 100vw",
-    variant: "feature",
+    layout: "col-span-1 md:col-span-2 md:row-span-2",
+    sizes: "(min-width: 768px) 66vw, 100vw",
   },
   {
     id: 2,
@@ -36,9 +32,8 @@ const moments: Moment[] = [
     title: "Village Smiles",
     location: "Hunza Valley",
     emotion: "Joy",
-    layout: "col-span-1 row-span-2",
-    sizes: "(min-width: 1024px) 25vw, 50vw",
-    variant: "default",
+    layout: "col-span-1 md:col-span-1 md:row-span-1",
+    sizes: "(min-width: 768px) 33vw, 100vw",
   },
   {
     id: 3,
@@ -47,9 +42,8 @@ const moments: Moment[] = [
     title: "Lakeside Serenity",
     location: "Attabad Lake",
     emotion: "Peace",
-    layout: "col-span-1 row-span-1",
-    sizes: "(min-width: 1024px) 25vw, 50vw",
-    variant: "default",
+    layout: "col-span-1 md:col-span-1 md:row-span-1",
+    sizes: "(min-width: 768px) 33vw, 100vw",
   },
   {
     id: 4,
@@ -58,9 +52,8 @@ const moments: Moment[] = [
     title: "Trail Companions",
     location: "Fairy Meadows",
     emotion: "Friendship",
-    layout: "col-span-1 row-span-1",
-    sizes: "(min-width: 1024px) 25vw, 50vw",
-    variant: "default",
+    layout: "col-span-1 md:col-span-1 md:row-span-1",
+    sizes: "(min-width: 768px) 33vw, 100vw",
   },
   {
     id: 5,
@@ -69,172 +62,96 @@ const moments: Moment[] = [
     title: "Starlit Camps",
     location: "Deosai Plains",
     emotion: "Wonder",
-    layout: "col-span-2 lg:col-span-4 row-span-1",
-    sizes: "100vw",
-    variant: "default",
+    layout: "col-span-1 md:col-span-2 md:row-span-1",
+    sizes: "(min-width: 768px) 66vw, 100vw",
   },
 ];
 
-const MomentCard = ({ moment, index }: { moment: Moment; index: number }) => {
-  const isFeature = moment.variant === "feature";
-
-  return (
-    <article
-      className={`group relative isolate overflow-hidden rounded-2xl sm:rounded-3xl bg-[#17345B] shadow-sm ring-1 ring-black/5 transition-all duration-500 hover:shadow-2xl hover:shadow-[#17345B]/20 focus-within:ring-2 focus-within:ring-[#F56907] ${moment.layout}`}
-    >
-      <Image
-        src={moment.image}
-        alt={`${moment.title} — ${moment.location}`}
-        fill
-        sizes={moment.sizes}
-        priority={index === 0}
-        className="object-cover transition-transform duration-[900ms] ease-out group-hover:scale-105"
-      />
-
-      {/* Gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-[#17345B]/90 via-[#17345B]/15 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-95" />
-
-      {/* Top row: index number + hover arrow */}
-      <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3 sm:p-5">
-        <span className="rounded-full bg-white/15 px-2.5 py-1 text-[10px] sm:text-xs font-semibold tracking-widest text-white/90 backdrop-blur-md ring-1 ring-white/20">
-          {String(index + 1).padStart(2, "0")}
-        </span>
-        <span className="flex h-8 w-8 sm:h-9 sm:w-9 items-center justify-center rounded-full bg-white/15 text-white opacity-0 backdrop-blur-md ring-1 ring-white/20 transition-all duration-300 -translate-y-1 group-hover:translate-y-0 group-hover:opacity-100 group-hover:bg-[#F56907] group-hover:ring-[#F56907]">
-          <ArrowUpRight size={15} />
-        </span>
-      </div>
-
-      {/* Caption */}
-      <div
-        className={`absolute inset-x-0 bottom-0 transition-transform duration-500 translate-y-1 group-hover:translate-y-0 ${
-          isFeature ? "p-5 sm:p-8" : "p-3.5 sm:p-5"
-        }`}
-      >
-        <span
-          className={`inline-block rounded-full font-bold text-white ${
-            isFeature
-              ? "bg-[#F56907] px-3.5 py-1 text-xs mb-3"
-              : "bg-[#014090] px-2.5 py-1 text-[10px] sm:text-[11px] mb-2"
-          }`}
-        >
-          {moment.emotion}
-        </span>
-
-        <h4
-          className={`font-bold leading-tight text-white ${
-            isFeature
-              ? "text-2xl sm:text-3xl lg:text-4xl mb-2"
-              : "text-sm sm:text-lg mb-1"
-          }`}
-        >
-          {moment.title}
-        </h4>
-
-        <div
-          className={`flex items-center gap-1.5 text-white/80 ${
-            isFeature ? "text-sm sm:text-base" : "text-[11px] sm:text-sm"
-          }`}
-        >
-          <MapPin
-            size={isFeature ? 16 : 13}
-            className="shrink-0 text-[#F56907]"
-          />
-          <span className="truncate">{moment.location}</span>
-        </div>
-      </div>
-    </article>
-  );
-};
-
 const MomentsEmotions = () => {
   return (
-    <section
-      aria-labelledby="moments-heading"
-      className="relative overflow-hidden"
-    >
-      {/* Decorative background accents */}
-      <div className="pointer-events-none absolute -top-24 -right-24 h-80 w-80 rounded-full bg-[#F56907]/5 blur-3xl" />
-      <div className="pointer-events-none absolute top-1/2 -left-24 h-80 w-80 rounded-full bg-[#014090]/5 blur-3xl" />
-
-      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-28">
-        {/* Header */}
-        <div className="mb-10 sm:mb-14 flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between lg:gap-12">
+    <section className="bg-white py-20 md:py-32 selection:bg-[#F56907] selection:text-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        {/* Editorial Header */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-10 mb-16 md:mb-20">
           <div className="max-w-2xl">
-            <div className="mb-5 inline-flex items-center gap-2 rounded-full border border-[#014090]/10 bg-[#014090]/5 px-4 py-1.5">
-              <Heart size={14} className="text-[#F56907]" fill="#F56907" />
-              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-[#014090]">
-                Captured Memories
-              </span>
-            </div>
-
-            <h3
-              id="moments-heading"
-              className="text-3xl font-bold leading-[1.1] tracking-tight text-[#17345B] sm:text-4xl lg:text-5xl xl:text-6xl"
-            >
+            <span className="text-[#F56907] font-semibold tracking-[0.2em] text-xs uppercase mb-4 block">
+              Captured Memories
+            </span>
+            <h2 className="text-4xl md:text-5xl lg:text-6xl text-[#17345B] tracking-tight font-light mb-6">
               Moments &{" "}
-              <span className="relative inline-block text-[#014090]">
-                Emotions
-                <svg
-                  aria-hidden="true"
-                  className="absolute -bottom-2 left-0 w-full"
-                  height="8"
-                  viewBox="0 0 200 8"
-                  fill="none"
-                  preserveAspectRatio="none"
-                >
-                  <path
-                    d="M1 5.5C40 2 160 2 199 5.5"
-                    stroke="#F56907"
-                    strokeWidth="3"
-                    strokeLinecap="round"
-                  />
-                </svg>
-              </span>
-            </h3>
-
-            <p className="mt-5 max-w-lg text-sm leading-relaxed text-gray-500 sm:text-base">
-              Every journey tells a story. Here&apos;s a glimpse into the
-              unforgettable experiences our travelers carry home.
+              {/* Using serif and italic for an elegant, magazine-like contrast */}
+              <span className="font-serif italic text-[#014090]">Emotions</span>
+            </h2>
+            <p className="text-gray-500 text-lg leading-relaxed max-w-lg font-light">
+              Every journey tells a story. Discover the raw, unfiltered
+              experiences our travelers carry home from the Karakoram.
             </p>
           </div>
 
-          {/* Desktop CTA */}
-          <div className="hidden lg:flex items-center gap-5 flex-1 max-w-md pb-2">
-            <div className="h-px flex-1 bg-gradient-to-r from-transparent via-gray-300 to-gray-300" />
-            <button
-              type="button"
-              className="group inline-flex items-center gap-2.5 whitespace-nowrap rounded-full border border-[#014090]/15 bg-white px-6 py-3 text-sm font-semibold text-[#014090] shadow-sm transition-all duration-300 hover:border-[#F56907] hover:bg-[#F56907] hover:text-white hover:shadow-lg hover:shadow-[#F56907]/25 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F56907] focus-visible:ring-offset-2"
-            >
-              View Gallery
-              <ArrowUpRight
-                size={17}
-                className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
-              />
-            </button>
-          </div>
-        </div>
-
-        {/* Bento grid
-            Mobile  (2 cols): hero · tall + 2 stacked · wide banner
-            Desktop (4 cols): hero (2x2) · tall · 2 stacked · full-width banner */}
-        <div className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4 lg:gap-5 auto-rows-[150px] sm:auto-rows-[200px] lg:auto-rows-[230px]">
-          {moments.map((moment, index) => (
-            <MomentCard key={moment.id} moment={moment} index={index} />
-          ))}
-        </div>
-
-        {/* Mobile / tablet CTA */}
-        <div className="mt-10 flex justify-center lg:hidden">
-          <button
-            type="button"
-            className="group inline-flex items-center gap-2 rounded-full bg-[#014090] px-7 py-3.5 text-sm font-semibold text-white shadow-lg shadow-[#014090]/20 transition-all duration-300 hover:bg-[#F56907] hover:shadow-[#F56907]/30 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#F56907] focus-visible:ring-offset-2"
-          >
-            View Full Gallery
-            <ArrowUpRight
-              size={16}
-              className="transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5"
+          <button className="group relative inline-flex items-center gap-3 pb-2 text-sm font-semibold uppercase tracking-widest text-[#17345B] transition-colors hover:text-[#014090] cursor-pointer">
+            Explore Gallery
+            <ArrowRight
+              size={18}
+              className="transition-transform duration-300 group-hover:translate-x-1"
             />
+            <span className="absolute bottom-0 left-0 h-[1px] w-full bg-gray-200" />
+            <span className="absolute bottom-0 left-0 h-[1px] w-0 bg-[#014090] transition-all duration-500 ease-out group-hover:w-full" />
           </button>
+        </div>
+
+        {/*
+          Asymmetrical Editorial Grid
+          Mobile: Stacked, but hero is taller
+          Desktop: 3 columns, perfectly interlaced
+        */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6 auto-rows-[300px] md:auto-rows-[340px]">
+          {moments.map((moment, index) => (
+            <article
+              key={moment.id}
+              className={`group relative overflow-hidden rounded-[2rem] bg-gray-100 ${moment.layout} transform-gpu`}
+            >
+              {/* Cinematic Image Zoom */}
+              <Image
+                src={moment.image}
+                alt={`${moment.title} in ${moment.location}`}
+                fill
+                sizes={moment.sizes}
+                priority={index === 0}
+                className="object-cover transition-transform duration-[1.5s] ease-[cubic-bezier(0.25,0.1,0.25,1)] group-hover:scale-105"
+              />
+
+              {/* Refined Gradient Overlay (Darkens gently only at the bottom for text readability) */}
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0a1629]/90 via-[#0a1629]/20 to-transparent opacity-60 transition-opacity duration-500 group-hover:opacity-80" />
+
+              {/* Glassmorphism Emotion Pill */}
+              <div className="absolute top-6 left-6 z-10">
+                <span className="inline-flex items-center justify-center rounded-full border border-white/20 bg-white/10 px-4 py-1.5 text-[10px] font-semibold tracking-widest text-white uppercase backdrop-blur-md transition-all duration-500 group-hover:bg-white/20">
+                  {moment.emotion}
+                </span>
+              </div>
+
+              {/* Content area: Slides up slightly on hover */}
+              <div className="absolute inset-x-0 bottom-0 flex items-end justify-between p-6 sm:p-8 z-10 translate-y-2 transition-transform duration-500 ease-out group-hover:translate-y-0">
+                <div className="flex flex-col">
+                  <h3 className="text-2xl sm:text-3xl font-medium text-white tracking-tight mb-2 leading-tight">
+                    {moment.title}
+                  </h3>
+                  <div className="flex items-center gap-1.5 text-white/80 text-sm">
+                    <MapPin size={15} className="text-[#F56907]" />
+                    <span>{moment.location}</span>
+                  </div>
+                </div>
+
+                {/* Elegant Hover Action Button */}
+                <div className="hidden sm:flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-white text-[#17345B] opacity-0 shadow-lg transition-all duration-500 ease-out translate-x-4 group-hover:translate-x-0 group-hover:opacity-100">
+                  <ArrowRight
+                    size={20}
+                    className="transform transition-transform duration-300 group-hover:-rotate-45"
+                  />
+                </div>
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

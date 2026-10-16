@@ -2,25 +2,14 @@
 
 import { useState } from "react";
 import Image from "next/image";
-import {
-  MapPin,
-  Clock,
-  Users,
-  Star,
-  TrendingUp,
-  ArrowRight,
-  Mountain,
-  Compass,
-  Tent,
-  Map,
-} from "lucide-react";
+import { MapPin, Clock, Mountain, Star, ArrowRight } from "lucide-react";
 
 const categories = [
-  { id: "all", label: "All", icon: Compass },
-  { id: "expeditions", label: "Expeditions", icon: Mountain },
-  { id: "trekking", label: "Trekking", icon: Tent },
-  { id: "tours", label: "Tours", icon: Map },
-  { id: "outdoor", label: "Outdoor Events", icon: TrendingUp },
+  { id: "all", label: "All Experiences" },
+  { id: "expeditions", label: "Expeditions" },
+  { id: "trekking", label: "Trekking" },
+  { id: "tours", label: "Tours" },
+  { id: "outdoor", label: "Outdoor Events" },
 ];
 
 const experiences = [
@@ -110,13 +99,6 @@ const experiences = [
   },
 ];
 
-const difficultyColors: Record<string, string> = {
-  Easy: "bg-green-50 text-green-700 border-green-200",
-  Moderate: "bg-amber-50 text-amber-700 border-amber-200",
-  Challenging: "bg-orange-50 text-orange-700 border-orange-200",
-  Extreme: "bg-red-50 text-red-700 border-red-200",
-};
-
 const DiscoverExperiences = () => {
   const [activeCategory, setActiveCategory] = useState("all");
 
@@ -126,141 +108,157 @@ const DiscoverExperiences = () => {
       : experiences.filter((exp) => exp.category === activeCategory);
 
   return (
-    <section className="relative bg-gradient-to-b from-gray-50/50 to-white py-16 sm:py-20 lg:py-24 overflow-hidden">
-      {/* Decorative background */}
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#014090]/[0.03] rounded-full blur-3xl pointer-events-none" />
-
-      <div className="relative container mx-auto px-4 sm:px-6 lg:px-8">
-        {/* Header */}
-        <div className="text-center max-w-2xl mx-auto mb-10 sm:mb-14">
-          <div className="inline-flex items-center gap-2 bg-[#F56907]/10 border border-[#F56907]/20 rounded-full px-4 py-1.5 mb-5">
-            <Compass size={14} className="text-[#F56907]" />
-            <span className="text-xs font-semibold text-[#F56907] tracking-wide uppercase">
-              Explore With Us
+    <section className="bg-[#F8FAFC] py-20 md:py-32 selection:bg-[#014090] selection:text-white">
+      <div className="container mx-auto px-4 sm:px-6 lg:px-8 max-w-7xl">
+        {/* Editorial Header & Filters */}
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
+          <div className="max-w-2xl">
+            <span className="text-[#F56907] font-bold tracking-widest text-xs uppercase mb-3 block">
+              Curated Adventures
             </span>
+            <h2 className="text-4xl md:text-5xl font-extrabold text-[#17345B] tracking-tight leading-tight">
+              Discover the Karakoram
+            </h2>
+            <p className="mt-4 text-lg text-gray-600 leading-relaxed max-w-xl">
+              Immerse yourself in our premier selection of expeditions, treks,
+              and cultural tours. Find your next unforgettable journey.
+            </p>
           </div>
-          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-[#17345B] leading-tight mb-4">
-            Discover Your Next Adventure
-          </h2>
-          <p className="text-gray-500 text-sm sm:text-base leading-relaxed">
-            From high-altitude expeditions to cultural tours, find the perfect
-            journey tailored to your sense of adventure.
-          </p>
+
+          {/* Minimalist Pill Filters */}
+          <div
+            className="flex items-center gap-2 overflow-x-auto pb-2 md:pb-0 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none] snap-x"
+            role="tablist"
+            aria-label="Filter experiences"
+          >
+            {categories.map((cat) => {
+              const isActive = activeCategory === cat.id;
+              return (
+                <button
+                  key={cat.id}
+                  onClick={() => setActiveCategory(cat.id)}
+                  role="tab"
+                  aria-selected={isActive}
+                  className={`whitespace-nowrap px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#014090] snap-start ${
+                    isActive
+                      ? "bg-[#17345B] text-white shadow-md"
+                      : "bg-white text-gray-600 hover:bg-gray-100 hover:text-[#17345B]"
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              );
+            })}
+          </div>
         </div>
 
-        {/* Category Tabs */}
-        <div className="flex flex-wrap items-center justify-center gap-2 sm:gap-3 mb-10 sm:mb-12">
-          {categories.map((cat) => {
-            const Icon = cat.icon;
-            const isActive = activeCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`flex items-center gap-2 px-4 sm:px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-300 border ${
-                  isActive
-                    ? "bg-[#014090] text-white border-[#014090] shadow-lg shadow-[#014090]/25"
-                    : "bg-white text-gray-600 border-gray-200 hover:border-[#014090]/30 hover:text-[#014090]"
-                }`}
-              >
-                <Icon size={16} />
-                <span>{cat.label}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {/* Experience Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-7">
+        {/* Premium Grid Layout */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredExperiences.map((exp) => (
-            <div
+            <a
+              href={`#tour-${exp.id}`}
               key={exp.id}
-              className="group bg-white rounded-2xl sm:rounded-3xl overflow-hidden shadow-sm hover:shadow-2xl border border-gray-100 transition-all duration-500 hover:-translate-y-1.5"
+              className="group flex flex-col bg-white rounded-2xl overflow-hidden border border-gray-100/50 shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#014090]"
             >
-              {/* Image */}
-              <div className="relative h-56 sm:h-60 overflow-hidden">
+              {/* Image Container */}
+              <div className="relative w-full h-64 overflow-hidden bg-gray-100">
                 <Image
                   src={exp.image}
                   alt={exp.title}
                   fill
-                  className="object-cover transition-transform duration-700 group-hover:scale-110"
+                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-110"
+                  sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
 
-                {/* Difficulty badge */}
-                <div
-                  className={`absolute top-4 left-4 px-3 py-1 rounded-full text-xs font-bold border backdrop-blur-sm ${difficultyColors[exp.difficulty]}`}
-                >
-                  {exp.difficulty}
-                </div>
-
-                {/* Rating badge */}
-                <div className="absolute top-4 right-4 flex items-center gap-1 bg-white/95 backdrop-blur-sm px-2.5 py-1 rounded-full text-xs font-bold text-[#17345B]">
-                  <Star size={12} className="fill-[#F56907] text-[#F56907]" />
-                  {exp.rating}
-                </div>
-
-                {/* Location on image */}
-                <div className="absolute bottom-4 left-4 flex items-center gap-1.5 text-white text-xs font-medium">
-                  <MapPin size={13} />
-                  <span>{exp.location}</span>
+                {/* Floating Category Badge */}
+                <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-3 py-1.5 rounded-full text-[11px] font-bold text-[#17345B] uppercase tracking-wider shadow-sm">
+                  {categories.find((c) => c.id === exp.category)?.label}
                 </div>
               </div>
 
-              {/* Content */}
-              <div className="p-5 sm:p-6">
-                <h3 className="text-lg sm:text-xl font-bold text-[#17345B] mb-3 leading-snug group-hover:text-[#014090] transition-colors">
+              {/* Content Container */}
+              <div className="p-6 flex flex-col flex-grow">
+                {/* Meta Header */}
+                <div className="flex justify-between items-start mb-3">
+                  <div className="flex items-center gap-1.5 text-gray-500">
+                    <MapPin size={14} className="shrink-0" />
+                    <span className="text-sm font-medium line-clamp-1">
+                      {exp.location}
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-1 bg-orange-50 px-2 py-1 rounded-md">
+                    <Star
+                      size={12}
+                      className="text-[#F56907] fill-[#F56907] shrink-0"
+                    />
+                    <span className="text-xs font-bold text-[#F56907]">
+                      {exp.rating}
+                    </span>
+                  </div>
+                </div>
+
+                {/* Title */}
+                <h3 className="text-xl font-bold text-[#17345B] leading-tight mb-4 group-hover:text-[#014090] transition-colors line-clamp-1">
                   {exp.title}
                 </h3>
 
-                {/* Details row */}
-                <div className="flex items-center gap-4 text-xs sm:text-sm text-gray-500 mb-4 pb-4 border-b border-gray-100">
+                {/* Clean Feature Row */}
+                <div className="flex items-center gap-4 mb-6 text-sm text-gray-600">
                   <div className="flex items-center gap-1.5">
-                    <Clock size={14} className="text-[#014090]" />
-                    <span>{exp.duration}</span>
+                    <Clock size={16} className="text-gray-400 shrink-0" />
+                    <span className="font-medium">{exp.duration}</span>
                   </div>
+                  <div className="w-1 h-1 rounded-full bg-gray-300" />
                   <div className="flex items-center gap-1.5">
-                    <Users size={14} className="text-[#014090]" />
-                    <span>{exp.groupSize} People</span>
-                  </div>
-                  <div className="flex items-center gap-1 ml-auto text-gray-400">
-                    ({exp.reviews} reviews)
+                    <Mountain size={16} className="text-gray-400 shrink-0" />
+                    <span className="font-medium">{exp.difficulty}</span>
                   </div>
                 </div>
 
-                {/* Price + CTA */}
-                <div className="flex items-center justify-between">
+                {/* Elegant Footer */}
+                <div className="mt-auto pt-5 border-t border-gray-100 flex items-center justify-between">
                   <div>
-                    <span className="text-xs text-gray-400">Starting from</span>
-                    <p className="text-xl font-bold text-[#17345B]">
+                    <span className="text-xs font-medium text-gray-500 uppercase tracking-wide block mb-0.5">
+                      Starting from
+                    </span>
+                    <span className="text-lg font-extrabold text-[#17345B]">
                       Rs. {exp.price}
-                      <span className="text-xs font-normal text-gray-400">
-                        {" "}
-                        /person
-                      </span>
-                    </p>
+                    </span>
                   </div>
-                  <button className="group/btn flex items-center gap-1.5 bg-[#014090]/5 hover:bg-[#F56907] text-[#014090] hover:text-white font-semibold text-sm px-4 py-2.5 rounded-full transition-all duration-300">
-                    Details
+
+                  {/* Circular Hover Button */}
+                  <div className="w-10 h-10 rounded-full bg-gray-50 text-[#17345B] flex items-center justify-center group-hover:bg-[#014090] group-hover:text-white transition-colors duration-300">
                     <ArrowRight
-                      size={14}
-                      className="group-hover/btn:translate-x-0.5 transition-transform"
+                      size={18}
+                      className="transform group-hover:translate-x-0.5 transition-transform duration-300"
                     />
-                  </button>
+                  </div>
                 </div>
               </div>
-            </div>
+            </a>
           ))}
         </div>
 
+        {/* Empty State */}
+        {filteredExperiences.length === 0 && (
+          <div className="text-center py-24 bg-white rounded-2xl border border-gray-100 shadow-sm mt-8">
+            <div className="w-16 h-16 bg-gray-50 rounded-full flex items-center justify-center mx-auto mb-4">
+              <MapPin size={24} className="text-gray-400" />
+            </div>
+            <h3 className="text-xl font-bold text-[#17345B] mb-2">
+              No experiences found
+            </h3>
+            <p className="text-gray-500">
+              We couldn't find any journeys matching this category.
+            </p>
+          </div>
+        )}
+
         {/* View All CTA */}
-        <div className="flex justify-center mt-12 sm:mt-14">
-          <button className="group flex items-center gap-2 border-2 border-[#014090] text-[#014090] hover:bg-[#014090] hover:text-white font-semibold text-sm sm:text-base px-7 py-3.5 rounded-full transition-all duration-300">
-            View All Experiences
-            <ArrowRight
-              size={18}
-              className="group-hover:translate-x-1 transition-transform"
-            />
+        <div className="mt-12 flex justify-center border-t border-gray-200 pt-10">
+          <button className="px-6 py-3 bg-white border border-gray-300 text-[#17345B] font-medium rounded-lg hover:bg-gray-50 hover:text-[#014090] hover:border-gray-400 transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[#014090] focus-visible:ring-offset-2 focus-visible:ring-offset-gray-50 cursor-pointer">
+            View Complete Catalogue
           </button>
         </div>
       </div>
